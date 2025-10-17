@@ -1,0 +1,13 @@
+{
+  "name": "CodeQuest (BE project)",
+  "version": "1.0.0",
+  "description": "1v1 and 2v2 coding battle game using Socket.IO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.2"
+  }
+}

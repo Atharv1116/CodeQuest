@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Sum of Two Numbers",
+    "description": "Given two integers a and b, output their sum.",
+    "inputFormat": "Two space-separated integers a b",
+    "outputFormat": "Single integer (a + b)",
+    "sampleInput": "3 5",
+    "sampleOutput": "8",
+    "difficulty": "easy",
+    "language": "python",
+    "solution": "const fs = require('fs');\nconst data = fs.readFileSync(0,'utf8').trim().split(/\\s+/).map(Number);\nconsole.log(data[0] + data[1]);"
+  },
+  {
+    "title": "Factorial",
+    "description": "Compute n! for 0 ≤ n ≤ 12.",
+    "inputFormat": "Single integer n",
+    "outputFormat": "Single integer n!",
+    "sampleInput": "5",
+    "sampleOutput": "120",
+    "difficulty": "easy",
+    "language": "python",
+    "solution": "import sys\nn = int(sys.stdin.read().strip())\nres = 1\nfor i in range(2, n+1):\n    res *= i\nprint(res)"
+  },
+  {
+    "title": "Reverse String",
+    "description": "Given a string s, print it reversed.",
+    "inputFormat": "Single line string",
+    "outputFormat": "Reversed string",
+    "sampleInput": "hello",
+    "sampleOutput": "olleh",
+    "difficulty": "easy",
+    "language": "cpp",
+    "solution": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){ios::sync_with_stdio(false);cin.tie(nullptr);string s;getline(cin,s);reverse(s.begin(), s.end());cout<<s;}\n"
+  }
+]

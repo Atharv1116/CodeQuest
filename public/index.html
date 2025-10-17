@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>⚔️ Coding Battle Lobby</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0e0e0e;
+      color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(90deg, #111, #1a1a1a, #111);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+      font-size: 2em;
+      color: #00ffc3;
+      letter-spacing: 1px;
+    }
+
+    main {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    h1 {
+      color: #00ffc3;
+      font-size: 2.2em;
+      margin-bottom: 30px;
+    }
+
+    button {
+      background-color: #00ffc3;
+      color: #000;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin: 15px;
+      transition: 0.2s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 195, 0.2);
+    }
+
+    button:hover {
+      background-color: #00cfa1;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 255, 195, 0.4);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      text-align: center;
+      color: #777;
+      font-size: 0.9em;
+    }
+
+    /* Buffering Overlay */
+    #bufferOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      color: #00ffc3;
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    .spinner {
+      border: 6px solid #222;
+      border-top: 6px solid #00ffc3;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>⚔️ Coding Battle Arena</header>
+
+  <main>
+    <h1>Welcome to the Code Battle Lobby</h1>
+    <button onclick="joinGame('1v1')">Join 1v1 Battle</button>
+    <button onclick="joinGame('2v2')">Join 2v2 Battle</button>
+    <button onclick="goToLeaderboard()">🏆 View Leaderboard</button>
+  </main>
+
+  <!-- Buffering Overlay -->
+  <div id="bufferOverlay">
+    <div class="spinner"></div>
+    <div>⚡ Searching for players...</div>
+  </div>
+
+  <footer>
+    ⚡ Developed for the CodeBattle Project
+  </footer>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function showBuffering() {
+      document.getElementById('bufferOverlay').style.display = 'flex';
+    }
+
+    function hideBuffering() {
+      document.getElementById('bufferOverlay').style.display = 'none';
+    }
+
+    function joinGame(type) {
+      showBuffering();
+      socket.emit(type === '1v1' ? 'join-1v1' : 'join-2v2');
+    }
+
+    socket.on('match-found', (data) => {
+      hideBuffering();
+      const query = `room=${data.roomId}&title=${encodeURIComponent(data.question.title)}&desc=${encodeURIComponent(data.question.description)}&input=${encodeURIComponent(data.question.sampleInput)}&output=${encodeURIComponent(data.question.sampleOutput)}`;
+      window.location.href = `/battle.html?${query}`;
+    });
+
+    function goToLeaderboard() {
+      window.location.href = '/leaderboard.html';
+    }
+  </script>
+</body>
+</html>
